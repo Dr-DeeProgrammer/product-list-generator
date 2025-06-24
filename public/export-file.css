@@ -1,0 +1,226 @@
+.export-window .content {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-container {
+    width: 210px;
+    padding: 0 12.5px;
+}
+
+.mobile-container .mobile {
+    background-color: black;
+    border-radius: 20px;
+    height: 375px;
+    padding: 3px;
+    padding-bottom: 7.5px;
+    overflow: hidden;
+}
+
+.mobile-screen {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border-radius: 18px;
+    display: grid;
+    overflow: hidden;
+    grid-template-rows: 0.2fr 5fr 0.25fr;
+    --stndrd-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--stndrd-color);
+    position: relative;
+}
+.mobile-app {
+    background-color: white;
+    margin: 0.25px;
+}
+
+.mobile-screen::after {
+    content: '';
+    width: 10px;
+    aspect-ratio: 1 / 1;
+    background-color: black;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    translate: -50% 0;
+    border-radius: 50%;
+}
+.input-field:has(#include-images){
+    width: 100%;
+}
+.input-field:has(#include-images) label{
+    color: black !important;
+    background-color: transparent !important;
+    position: relative;
+    font-size: 1rem !important;
+    margin-left: 10px;
+}
+
+.navigation-bar {
+    padding: 3px 25px;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.navigation-bar>* {
+    height: 90%;
+    aspect-ratio: 1 / 1;
+    --almost-black: rgba(0, 0, 0, 0.75);
+    background-color: var(--almost-black);
+}
+
+.home-btn {
+    border-radius: 50%;
+}
+
+.back-btn {
+    border-radius: 0;
+    background-color: transparent;
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 9px solid var(--almost-black);
+}
+
+.status-bar {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 0.5rem;
+    padding: 0 15px;
+}
+
+.battery {
+    height: 70%;
+    aspect-ratio: 2 / 3;
+    background-color: black;
+    position: relative;
+    margin-left: 5px;
+}
+
+.battery::before {
+    content: '';
+    top: -12%;
+    left: 50%;
+    translate: -50% 0;
+    position: absolute;
+    width: 50%;
+    height: 20%;
+    background-color: black;
+}
+
+.signal {
+    background-color: transparent;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-top: 0px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 8px solid black;
+    margin-left: auto;
+}
+
+.signal::before {
+    content: 'LTE';
+    font-size: 0.4rem;
+    display: block;
+    translate: -20px 0;
+}
+
+.export-info-form {
+    /* flex-grow: 1; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.export-info-form .input-field {
+    position: relative;
+}
+
+.export-info-form .input-field label {
+    top: 50%;
+    left: 0;
+    translate: 20px -50%;
+    position: absolute;
+    color: lightgrey;
+    transition: 200ms top ease-in;
+}
+.export-info-form textarea{
+    height: 100px;
+}
+.export-info-form .input-field textarea+label{
+    top: 20px ;
+}
+.export-info-form .input-field > *:not(label):focus+label{
+    top: 0;
+    font-size: 0.65rem;
+    background-color: whitesmoke;
+    color: black;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+.export-info-form input,
+.export-info-form textarea {
+    color: white;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(115, 115, 115);
+    resize: none;
+    outline: none;
+    padding: 12.5px;
+    font-size: 1rem;
+}
+.export-info-form .validation-form input{
+    font-size: 0.75rem;
+    padding: 5px;
+}
+.export-info-form .validation-form::before{
+    content: "List Validation";
+    translate: -50px 0;
+}
+.export-info-form .validation-form{
+    display: flex;
+    translate: 25px 0;
+    flex-direction: column;
+    gap: 10px;
+}
+.export-info-form .validation-form label{
+    display: flex;
+    color: black;
+    gap: 20px;
+}
+.export-info-form .validation-form input{
+    margin-left: auto;
+}
+.export-info-form .buttons-container{
+    display: flex;
+    justify-content: end;
+    width: 250px;
+}
+.export-info-form button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.export-info-form #export-btn,
+.export-info-form #export-static-btn{
+    margin-left: 10px;
+    background-color: rgb(115, 115, 115);
+    color: white;
+}
+.export-info-form button:hover{
+    opacity: 0.75;
+    font-weight: 200;
+}
+.export-info-form button:active{
+    opacity: 1;
+}

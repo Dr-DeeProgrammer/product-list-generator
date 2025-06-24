@@ -1,0 +1,188 @@
+.create-list-window .content{
+    padding: 10px;
+}
+.create-list-window .table{
+    overflow: hidden;
+}
+.create-list-window header{
+    border-bottom: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.create-list-window aside{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.create-list-window aside > * *{
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.create-list-window aside > * {
+    width: 250px;
+    margin: 0 auto;
+    display: flex;
+    border-radius: 5px;
+}
+.create-list-window .search-by-container{
+    background-color: white;
+}
+.create-list-window .search-input-container{
+    width: 300px !important;
+}
+.create-list-window input[type="search"]:focus+label{
+    background-color: white;
+}
+.create-list-window aside input[type="search"]{
+    font-size: 1rem;
+    width: 100%;
+    background-color: white;
+}
+.create-list-window aside button{
+    margin: 3px;
+    padding: 5px 10px;
+    flex-grow: 1;
+    background-color: transparent;
+}
+.create-list-window button.active-btn{
+    background-color: rgb(90, 90, 90);
+    border: none;
+    color: white;
+}
+.create-list-window #select-all-container{
+    display: grid;
+    grid-template-columns: 0.5fr 5fr;
+    margin: 0 10px;
+    
+}
+#select-all-container input{
+    justify-self: center;
+    text-align: center;
+    width: 20px;
+}
+.create-list-window .header-row{
+    padding: 5px;
+}
+.create-list-window .data-row,
+.create-list-window .header-row{
+    cursor: pointer;
+    padding: 3px;
+    grid-template-columns: 0.5fr 1fr 2fr 1fr 1fr;
+}
+.create-list-window .cell{
+    padding: 0;
+}
+.create-list-window .cell:not(.product-name){
+    text-align: center !important;
+}
+.create-list-window .table-container{
+    padding: 0 10px;
+}
+.cell input[type="checkbox"]:focus{
+    outline: none;
+}
+
+select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 16px;
+}
+
+#transfer-button {
+    background-color: #007bff; /* Nice blue color */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s,100ms visibility ease-in;
+}
+
+.select-container{
+    position: relative;
+}
+.select-container select{
+    padding-left: 20px;
+}
+.select-container label{
+    position: absolute;
+    font-size: 0.5rem;
+    left: 5px;
+    top: -7.5px;
+    background-color: rgb(53, 53, 53);
+    font-weight: bold;
+    color: white;
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+
+#transfer-button:hover {
+    background-color: #0056b3;
+}
+.end-points-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.create-list-window:has(input:checked) *{
+    pointer-events: none;
+}
+.create-list-window:has(input:checked) .data-row:has(input[type="checkbox"]),
+.create-list-window:has(input:checked) #transfer-button,
+.create-list-window #select-all-products
+{
+    pointer-events: all !important;
+
+}
+.create-list-window:not(:has(input:checked)) button#transfer-button{
+    visibility: hidden;
+}
+.create-list-window:not(:has(.data-row)) #select-all-container{
+    visibility: hidden;
+}
+.create-list-window:has(input:checked){
+    position: relative;
+}
+.create-list-window::before{
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    translate: -50% 0;
+    font-size: 0.75rem;
+    background-color: darkred;
+    color: white;
+    border-radius: 5px;
+    animation: 200ms popwindow ease-in-out;
+}
+.create-list-window:has(input:checked)::before{
+    padding: 3px 10px;
+    content: 'Transfer Products to enable Search';
+}
+.create-list-window{
+    position: relative;
+}
+.window .body > .total-products{
+    font-size: 0.75rem;
+    right: 25px;
+    z-index: 10;
+    bottom: 20px;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 5px;
+    position: absolute;
+}
+.create-list-window .table .body{
+    height: 220px !important;
+    overflow: auto;
+}

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <title>Usman Medicine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .app {
+
+            --bg-clr: white;
+            --txt-clr: #343A40;
+            --tbl-header-bg-clr: #E0F0F9;
+            --tbl-header-clr: #002A5C;
+            --rows-bg-clr: white;
+            --even-row-bg-clr: #edf1f4;
+            --order-btn-bg-clr: #002A5C;
+            --download-btn-bg-clr: #007BFF;
+            position: relative;
+        }
+
+        main {
+            background-color: whitesmoke;
+        }
+
+        header {
+            padding: 0 10px;
+            transition: height 500ms linear;
+            overflow: hidden;
+        }
+
+        header>p {
+            width: 90%;
+            margin: 3px auto;
+            color: var(--txt-clr);
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        header .company-address {
+            white-space: nowrap;
+            animation: slide 10s linear infinite;
+        }
+
+        .company-name {
+            margin: 10px 0;
+            color: #002A5C;
+            text-align: center;
+        }
+
+        header .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            padding: 3px 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .content-title {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .list-date {
+            color: #343A40;
+            font-style: italic;
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+
+        .table-body {
+            min-height: 350px;
+        }
+
+
+        .table {
+            margin: 0 5px;
+            background-color: var(--bg-clr);
+            color: var(--txt-clr);
+        }
+
+        .table .header-row {
+            background-color: var(--tbl-header-bg-clr);
+            color: var(--tbl-header-clr);
+            font-weight: bold;
+            font-size: 1.05rem;
+            text-align: center;
+        }
+
+        .table .row {
+            display: grid;
+            grid-template-columns: 3.5fr 1fr 1fr 2fr;
+            padding: 3px 0;
+        }
+
+        .row:not(:has(input:focus)) .cell:has(img) {
+            display: none;
+        }
+
+        .cell:has(img) {
+            grid-column: span 4;
+            width: 300px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px auto;
+        }
+
+        .cell img {
+            border-radius: 15px;
+            box-shadow: 0 0 5px 0 grey;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .table .data-row+.category-row {
+            margin-top: 10px;
+        }
+
+        .table .category-row {
+            font-weight: bols;
+            font-size: 1.2rem;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+            background-color: rgba(0, 123, 255, 0.4);
+            text-shadow: 0 0 5px #002A5C;
+
+        }
+
+        .table .data-row:nth-child(even) {
+            background-color: var(--even-row-bg-clr);
+        }
+
+        .data-row:has(input:focus) {
+            margin: 15px 0;
+            border: 2px solid #007BFF;
+            border-radius: 3px;
+            padding: 5px;
+        }
+
+        .table:has(input:focus) .header-row .cell:last-child {
+            display: none;
+        }
+
+        .table:has(input:focus) .data-row:not(:has(input:focus)) {
+            filter: blur(0.5px);
+        }
+
+        .data-row:has(input:focus) .cell:last-child {
+            background-color: var(--tbl-header-bg-clr);
+            text-align: center;
+            color: #007BFF;
+        }
+
+        .cell:last-child {
+            font-weight: bold;
+        }
+
+        .cell:not(:has(input)) {
+            padding: 3px;
+        }
+
+        .data-row .cell:nth-child(3) {
+            color: red !important;
+        }
+
+        .data-row .cell:nth-child(3)::after {
+            content: '%';
+        }
+
+        .content-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .data-row.prioritized .cell:nth-child(2)::before {
+            content: '🔥';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <h1 class="company-name">Company Name</h1>
+            <p class="company-description">Company Description</p>
+            <p class="company-address">Address: Company Address</p>
+            <p>Phone: <a class="whatsapp-link" href="https://wa.me/+923001234567">0300 1234567</a></p>
+        </header>
+        <main>
+            <h2 class="content-title">Product Offers<p class="list-date">(1 Jan, 2025)</p>
+            </h2>
+            <div class="table">
+                <div class="header-row row">
+                    <div class="cell">Qty</div>
+                    <div class="cell">Product Name</div>
+                    <div class="cell">Rate</div>
+                    <div class="cell">Disc.(%)</div>
+                    <div class="cell">Description</div>
+                </div>
+                <div class="table-body">
+
+                </div>
+            </div>
+        </main>
+</body>
+
+</html>

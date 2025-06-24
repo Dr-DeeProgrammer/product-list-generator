@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
+    <link rel="stylesheet" href="public/side-panel.css">
+    <link rel="stylesheet" href="public/main-container.css">
+    <link rel="stylesheet" href="public/extra-modules.css">
+    <link rel="stylesheet" href="public/create-list-window.css">
+    <link rel="stylesheet" href="public/input-validation.css">
+    <link rel="stylesheet" href="public/export-file.css">
+    <link rel="stylesheet" href="public/settings.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .app {
+            max-height: 100vh;
+            overflow: hidden;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 20% 80%;
+        }
+
+        select {
+            max-height: 200px !important;
+            overflow-y: auto;
+        }
+
+        button,
+        label {
+            cursor: pointer;
+        }
+
+        #floating-edit-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4px 7px;
+            background-color: white;
+            gap: 10px;
+            font-size: 0.8rem;
+            box-shadow: 0 0 5px 0 grey;
+        }
+
+
+        @keyframes pop {
+            from {
+                scale: 0;
+            }
+
+            to {
+                scale: 100%;
+            }
+        }
+
+        @keyframes open-window {
+            from {
+                transform: skew(-45deg) scale(0%);
+                top: 100%;
+                left: 0%;
+            }
+
+            to {
+                top: 50%;
+                left: 50%;
+                transform: skew(0deg) scale(100%);
+            }
+        }
+        @keyframes slide-down{
+            from{
+                translate:  -50% -100%;
+            }75%{
+                translate: -50% 150% ;
+            }
+            to{
+                translate: -50% 70%;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: lightgray;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: lightgray;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        button:not(:disabled),
+        input:not(:disabled) {
+            cursor: pointer;
+        }
+
+        .app:has(.active-window) .main-body {
+            pointer-events: none;
+        }
+        button:has(span.material-symbols-outlined){
+            font-size: 0.75rem;
+            background-color: transparent;
+            border: none;
+            align-content: center;
+            text-align: center;
+            border-radius: 5px;
+            transition: 200ms background-color ease-in;
+            padding: 2px;
+        }
+        button:has(span.material-symbols-outlined)[id^="close"]:hover{
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        button:has(span.material-symbols-outlined)[id^="close"]:active{
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .window button:has(span.material-symbols-outlined){
+            font-size: 0.6rem;
+        }
+    </style>
+    <title>Product List</title>
+</head>
+
+<body>
+    <div class="app">
+        <div class="side-panel">
+            <h1 class="app-title">Product List</h1>
+            <div class="buttons-container">
+                <div class="top-button">
+                    <button id="new-product-btn">New Product</button>
+                    <button id="manage-categories-btn">Manage Categories</button>
+                    <button id="manage-lists-btn">Manage Lists</button>
+                    <button id="import-btn">Import</button>
+                    <button id="export-btn">Export</button>
+                </div>
+                <div class="bottom-button">
+                    <button id="settings-btn">Settings</button>
+                </div>
+            </div>
+        </div>
+        <div class="category-panel">
+            <button id="close-category-panel-btn"><span class="material-symbols-outlined">close</span></button>
+            <h2>Categories</h2>
+            <div class="categories-draggable"></div>
+        </div>
+        <main class="main-body">
+            <header>
+                <div class="selection-container">
+                    <select id="list-select"></select>
+                </div>
+                <div class="middle-body">
+                    <div class="filter-container">
+                        <p>Filter by:</p>
+                        <div class="filter-options">
+                            <p>Choose Filters</p>
+                            <div class="options"></div>
+                        </div>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-input-container">
+                            <input type="search" id="search-product" placeholder="  ">
+                            <label for="search-product">Search Products</label>
+                        </div>
+                    </div>
+                    <div class="more-options-container">
+                        <div class="input-field">
+                            <input type="checkbox" id="allow-product-editing">
+                            <label for="allow-product-editing">Unlock Inputs</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="checkbox" id="allow-full-screen">
+                            <label for="allow-full-screen">Full Screen</label>
+                        </div>
+                        <button id="open-category-panel-btn">Assign Categories</button>
+                    </div>
+                </div>
+            </header>
+            <div class="table-container">
+                <h2>Product List</h2>
+                <div class="main-total-products">(0 / 0)</div>
+                <div class="table">
+                    <div class="header-row">
+                        <div class="cell product-stock">Stock</div>
+                        <div class="cell product-name">Product Name</div>
+                        <div class="cell product-rate">Rate</div>
+                        <div class="cell product-discount">Discount(%)</div>
+                        <div class="cell product-discount">Description</div>
+                    </div>
+                    <div class="body">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="extra-modules">
+            <div class="window new-product-window">
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <h3 class="window-title">New Product</h3>
+                <div class="content">
+                    <div class="form">
+                        <div>
+                            <div class="input-field">
+                                <input type="text" placeholder="" id="product-name">
+                                <label for="product-name"> Name</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" placeholder="" id="product-description">
+                                <label for="product-description">Description</label>
+                            </div>
+
+                            <div class="input-field">
+                                <input type="text" placeholder="" id="product-rate">
+                                <label for="product-rate">Rate</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" placeholder="" id="product-discount">
+                                <label for="product-discount">Discount (%)</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" placeholder="" id="product-stock">
+                                <label for="product-stock">Stock</label>
+                            </div>
+                        </div>
+                        <div class="category-form">
+                            <div class="picture-selector">
+                                <div class="image-display"></div>
+                                <button id="add-image-btn"></button>
+                            </div>
+                            <div class="category-options">
+                                <label>Avaliable Categories</label>
+                                <div class="category-option-parent">
+
+                                </div>
+                            </div>
+                            <div class="categories-choosen">
+                                <label>Choosen Categories</label>
+                                <div class="category-option-parent">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons-container">
+                            <button id="reset-btn">Reset</button>
+                            <button id="save-btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window manage-category-window">
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <h3 class="window-title">Manage Categories</h3>
+                <div class="content">
+                    <h4>Product Categories</h4>
+                    <div class="categories-container">
+                        <button id="new-category-btn">+ New Category</button>
+                    </div>
+                </div>
+            </div>
+            <div class="window manage-list-window">
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <h3 class="window-title">Manage Lists</h3>
+                <div class="content">
+                    <h4>Product Lists</h4>
+                    <div class="lists-container">
+                        <button id="new-list-btn">+ New List</button>
+                    </div>
+                </div>
+            </div>
+            <div class="window create-list-window">
+                <div class="window-title">Create List</div>
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <div class="content">
+                    <header>
+                        <aside>
+                            <div class="search-input-container">
+                                <input type="search" placeholder="" id="search-product-2">
+                                <label for="search-product-2">Search</label>
+                            </div>
+                            <div class="search-by-container">
+                            </div>
+                        </aside>
+                        <div class="end-points-container">
+                            <div class="select-container">
+                                <label for="source-list">Source List:</label>
+                                <select id="source-list"></select>
+                            </div>
+                            <button id="transfer-button">Transfer</button>
+                            <div class="select-container">
+                                <label for="destination-list">Destination List:</label>
+                                <select id="destination-list"></select>
+                            </div>
+                        </div>
+                    </header>
+                    <div id="select-all-container">
+                        <input type="checkbox" id="select-all-products">
+                        <label for="select-all-products"> Select All</label>
+                    </div>
+                    <div class="products-to-select-container">
+                        <div class="table-container">
+                            <div class="table">
+                                <div class="header-row">
+                                    <div class="cell"></div>
+                                    <div class="cell product-stock">Stock</div>
+                                    <div class="cell product-name">Product Name</div>
+                                    <div class="cell product-rate">Rate</div>
+                                    <div class="cell product-discount">Discount</div>
+                                </div>
+                                <div class="body"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window export-window">
+                <div class="window-title">Export List</div>
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <div class="content">
+                    <div class="mobile-container">
+                        <div class="mobile">
+                            <div class="mobile-screen">
+                                <div class="status-bar">
+                                    <div class="time">04:12</div>
+                                    <div class="signal"></div>
+                                    <div class="battery"></div>
+                                </div>
+                                <div class="mobile-app">
+
+                                </div>
+                                <div class="navigation-bar">
+                                    <div class="back-btn"></div>
+                                    <div class="home-btn"></div>
+                                    <div class="recents-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="export-info-form">
+                        <div class="input-field">
+                            <input type="text" id="file-name">
+                            <label for="file-name">List Name</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="checkbox" id="include-images">
+                            <label for="include-images">Include Images</label>
+                        </div>
+                        
+                        <div class="input-field">
+                            <textarea id="file-note"></textarea>
+                            <label for="file-note">Note</label>
+                        </div>
+                        <div class="validation-form">
+                            <label for="valid-from">from: <input type="date" id="valid-from"></label>
+                            <label for="valid-to">to: <input type="date" id="valid-to"></label>
+                        </div>
+                        <div class="buttons-container">
+                            <button id="reset-btn">Reset</button>
+                            <button id="export-static-btn">Export Static</button>
+                            <button id="export-btn">Export</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window settings-window">
+                <div class="window-title">Settings</div>
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <div class="content">
+                    <div class="settings-category">
+                        <h3 class="settings-category-label">Company Settings</h3>
+                        <div class="settings-options">
+                            <div class="input-settings-option">
+                                <p class="settings-description">Company Name : <input disabled placeholder=""
+                                        type="text" id="company-name"></p>
+                                <button id="edit-company-name-btn">Edit</button>
+                            </div>
+                            <div class="input-settings-option">
+                                <p class="settings-description">Company Description : <input disabled placeholder=""
+                                        type="text" id="company-description"></p>
+                                <button id="edit-company-description-btn">Edit</button>
+                            </div>
+                            <div class="input-settings-option">
+                                <p class="settings-description">Company Address : <input disabled placeholder=""
+                                        type="text" id="company-address"></p>
+                                <button id="edit-company-address-btn">Edit</button>
+                            </div>
+                            <div class="input-settings-option">
+                                <p class="settings-description">Company Phone : <input disabled
+                                        placeholder="+923012345678" type="tel" id="company-phone"></p>
+                                <button id="edit-company-phone-btn">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-category ">
+                        <div class="settings-category-label">Input/Output Directories</div>
+                        <div class="settings-options">
+                            <div class="input-settings-option">
+                                <p class="settings-description">Database File Name : <input disabled
+                                        placeholder="Not Set" type="text" id="input-db">
+                                </p>
+                                <button id="edit-input-db-btn">Edit</button>
+                            </div>
+                            <div class="input-settings-option">
+                                <p class="settings-description">Input Directory : <input disabled placeholder="Not Set"
+                                        type="text" id="input-dir">
+                                </p>
+                                <button id="change-input-dir-btn">Set</button>
+                            </div>
+                            <div class="input-settings-option">
+                                <p class="settings-description">Output Directory : <input disabled placeholder="Not Set"
+                                        type="text" id="output-dir"></p>
+                                <button id="change-output-dir-btn">Set</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-category import-settings">
+                        <div class="settings-category-label">Rate list Settings</div>
+                        <div class="settings-options">
+                            <div class="input-settings-option">
+                                <p class="settings-description">Low Stock Limit : <input disabled placeholder=""
+                                        type="number" id="low-stock-limit"></p>
+                                <button id="edit-stock-limit-btn">Edit</button>
+                            </div>
+                            <div class="toggle-settings-option">
+                                <p class="settings-description">Remove Low Stock Products</p>
+                                <button id="remove-low-stock-toggle"></button>
+                            </div>
+                            <div class="toggle-settings-option">
+                                <p class="settings-description">Update Stock</p>
+                                <button id="update-stock-toggle"></button>
+                            </div>
+                            <div class="toggle-settings-option">
+                                <p class="settings-description">Update Rates</p>
+                                <button id="update-rates-toggle"></button>
+                            </div>
+                            <div class="toggle-settings-option">
+                                <p class="settings-description">Update Discounts</p>
+                                <button id="update-discount-toggle"></button>
+                            </div>
+                            <div class="toggle-settings-option">
+                                <p class="settings-description">Add New Products </p>
+                                <button id="add-new-products-toggle"></button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="buttons-container">
+                        <button id="reset-settings-changes-btn">Reset Changes</button>
+                        <button id="save-settings-changes-btn">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+            <div class="window import-window">
+                <div class="window-title">Import</div>
+                <button id="close-window-btn"><span class="material-symbols-outlined">close</span></button>
+                <div class="content">
+                    <div class="import-settings">
+
+                    </div>
+                    <div class="buttons-container">
+                        <button id="reset-btn">Reset</button>
+                        <button id="import-btn">Import</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

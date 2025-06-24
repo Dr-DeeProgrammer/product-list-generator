@@ -1,0 +1,475 @@
+.main-body {
+    background-color: whitesmoke;
+    flex-direction: column;
+    padding: 10px;
+    display: flex;
+    height: 100vh;
+}
+
+.main-body header {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+    flex-shrink: 0;
+    height: var(--header-height);
+    transition: height 0.3s ease, padding 0.3s ease;
+}
+
+.main-body select {
+    appearance: none;
+    padding: 10px 30px;
+    border-radius: 25px;
+    margin: 10px auto;
+    display: block;
+    font-size: 1.25rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: pointer;
+}
+
+.main-body select:not(:has(option)) {
+    display: none !important;
+}
+
+.main-body select option {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.main-body .middle-body {
+    display: grid;
+    margin: 20px 0;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 50px;
+}
+
+.main-body .filter-container {
+    display: flex;
+    padding: 2px;
+    overflow: visible;
+}
+
+.main-body .filter-options {
+    max-width: 150px;
+    height: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.filter-options .options {
+    background-color: white;
+    position: relative;
+    transition: 200ms height ease-in;
+    height: 0;
+    box-shadow: 0 0.5px 3px grey;
+}
+
+.filter-options:not(:hover) {
+    overflow: hidden;
+}
+
+.main-body .filter-container .filter-options:hover .options {
+    height: 175px;
+    overflow: auto;
+    width: 100%;
+}
+
+.filter-options:hover .options:not(:has(.filter-option))::after {
+    content: 'No Categories';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    font-size: 0.75rem;
+    width: 100%;
+    text-align: center;
+    color: rgb(100, 100, 100);
+}
+
+.filter-container .filter-options {
+    box-shadow: 0 0 10px -2px grey;
+    margin-left: 10px;
+    border-radius: 5px;
+    transition: 250ms height ease-in;
+}
+
+.filter-container .filter-options>*:first-child {
+    background-color: rgb(235, 235, 235);
+    cursor: pointer;
+    padding: 5px 15px;
+}
+
+.filter-container .filter-options .filter-option {
+    padding: 5px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 15% 85%;
+}
+
+.filter-option>* {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.filter-container .filter-option:hover {
+    background-color: lightblue;
+}
+
+.middle-body .search-container {
+    align-content: center;
+    margin: 0 auto;
+    height: 30px;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+.search-input-container label {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    left: 5%;
+    color: grey;
+    transition: 200ms all ease-in;
+}
+
+.search-input-container>input:focus+label,
+.search-input-container>input:not(:placeholder-shown)+label {
+    top: 0;
+    font-size: 0.6rem;
+    color: black;
+    background-color: whitesmoke;
+    left: 5%;
+    padding: 2px;
+    font-weight: bold;
+}
+
+.search-input-container input:focus {
+    border: 2px solid black;
+
+}
+
+.search-input-container input {
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 3px 5px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.more-options-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.more-options-container label {
+    font-size: 0.8rem;
+}
+
+.more-options-container button {
+    padding: 5px 10px;
+    grid-column: span 2;
+    width: fit-content;
+    margin: 10px auto;
+}
+
+
+
+.table-container {
+    /* flex-grow: 1; */
+    flex: 1;
+    /* Takes remaining space */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.table-container h2 {
+    text-align: center;
+}
+
+.table-container .table {
+    margin: 10px 0;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid silver;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-body .table .body {
+    position: relative;
+    scrollbar-width: thin;
+    min-height: 100px;
+    flex: 1;
+    overflow: hidden auto;
+}
+
+.table .header-row {
+    background-color: grey;
+    color: white;
+    text-align: center;
+}
+
+.table .data-row:nth-child(even) {
+    background-color: rgb(235, 235, 235);
+}
+
+.table .data-row:hover {
+    background-color: lightgrey;
+}
+
+.body:hover .data-row:not(:hover) {
+    opacity: 0.7;
+}
+
+.table .cell.product-name {
+    text-transform: capitalize;
+}
+
+.table .header-row,
+.table .data-row {
+    border-radius: 2.5px 2.5px 0 0;
+    display: grid;
+    grid-template-columns: 10% 50% 10% 10% 20% 0px 0px;
+}
+
+.table .cell {
+    padding: 7.5px;
+}
+
+.data-row .cell:last-child {
+    text-align: right;
+    cursor: pointer;
+}
+
+.data-row .cell:has(input) {
+    padding: 2px;
+}
+
+.cell input {
+    font-size: 1rem;
+    border: none;
+    padding: 5px;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+}
+
+.cell input:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.cell input:focus {
+    outline: 2px solid black;
+    border-radius: 2px;
+}
+
+
+
+
+
+.category-header {
+    padding: 5px;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 5px;
+    color: white;
+    text-shadow: 0.2px 0.2px 5px black;
+    box-shadow: 0 0 5px 0px grey;
+    font-weight: bold;
+    background-color: rgb(175, 175, 175);
+}
+
+
+.data-row:has(+.category-header) {
+    margin-bottom: 30px;
+}
+
+.category-header:not(:has(+.data-row)) {
+    margin-bottom: 0;
+    display: none;
+}
+
+.category-header:not(:has(+.data-row))::after {
+    content: '(Empty)';
+    font-size: 0.75rem;
+    color: black;
+    text-shadow: none;
+    top: 100%;
+    margin-left: 10px;
+    left: 50%;
+}
+
+
+.app:has(#allow-full-screen:checked) {
+    grid-template-columns: 1fr;
+}
+
+.app:has(#allow-full-screen:checked) .table {
+    grid-template-columns: 1fr;
+}
+
+.app:has(#allow-full-screen:checked) header {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+
+.app:has(#allow-full-screen:checked) .side-panel {
+    display: none;
+}
+
+.app:has(#allow-full-screen:checked):not(:has(header:hover))::after {
+    content: 'Header';
+    border: 1px solid black;
+    background-color: whitesmoke;
+    padding: 5px 10px;
+    position: absolute;
+    top: 5px;
+    z-index: 5;
+    left: 50%;
+    translate: -50% 0;
+}
+
+.app:has(#allow-full-screen:checked) .data-row,
+.app:has(#allow-full-screen:checked) .header-row {
+    grid-template-columns: 1fr 3fr 1fr 1fr 2fr 0.5fr 0.5fr;
+}
+
+.cell button {
+    pointer-events: stroke;
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: 0.65rem;
+    height: 100%;
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    font-weight: bold;
+}
+
+.cell button.prioritized {
+    background-color: darkgreen;
+    color: white;
+}
+
+.cell:nth-child(6) button {
+    background-color: rgba(139, 0, 0, 0.75);
+    color: white;
+
+}
+
+.cell:has(button) {
+    overflow: hidden;
+    padding: 3px !important;
+}
+
+.app:has(#allow-full-screen:checked) header:not(:hover) {
+    position: relative;
+    padding: 0;
+    height: 10px;
+}
+.app:has(#allow-full-screen) header:hover{
+    overflow: visible;
+}
+
+.app {
+    position: relative;
+}
+
+.category-panel {
+    position: absolute;
+    left: 100%;
+    width: 0;
+    height: 100%;
+    translate: -100% 0;
+    background-color: white;
+    box-shadow: 0 0 10px 5px grey;
+    z-index: 1;
+    padding: 0;
+    transition: 200ms width ease-in-out;
+    overflow-x: hidden;
+}
+
+.category-panel .categories-draggable {
+    padding: 10px 0;
+    height: 490px;
+    overflow-y: auto;
+}
+
+.categories-draggable .category {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.categories-draggable .category:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.category-panel button {
+    position: absolute;
+}
+
+.category-panel.active {
+    padding: 10px;
+    width: 200px;
+}
+
+.category-panel h2 {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.data-row.drag-over {
+    background-color: #add8e6 !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table .body .data-row.hide {
+    display: none;
+}
+
+.table .body:has(.data-row:not(.hide))::before{
+    display: none;
+}
+
+.table-category-container:not(:has(.data-row:not(.hide))){
+    display: none;
+}
+.body::before {
+    content: 'This Product List is empty';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    color: grey;
+}
+
+
+
+.app:has(input[type="search"]:not(:placeholder-shown)) .body::before {
+    content: 'Search result not found';
+}
+
+.main-total-products{
+    text-align: right;
+}
+.body .data-row.low-stock .product-stock input{
+    background-color: darkred;
+    color: white;
+}

@@ -1,0 +1,477 @@
+
+.extra-modules{
+    position: absolute;
+    top: 0;
+    left: 0;    
+    backdrop-filter: blur(2px);
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+}
+.extra-modules:not(:has(.active-window)) {
+    display: none;
+}
+.window{
+    display: flex;
+    position: absolute;
+    translate: -50% -50%;
+    background-color: rgb(181, 181, 182);
+    width: 70%;
+    height: 80%;
+    border-radius: 5px;
+    flex-direction: column;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    animation: open-window 500ms ease-in-out;
+}
+.window:not(.active-window){
+    display: none;
+    transform: skew(-45deg) scale(0%);
+    top: 100%;
+    left: 0;
+}
+
+.window .content{
+    flex-grow: 1;
+}
+.window .window-title{
+    background-color: grey;   
+    font-size: 1rem;
+    color: white;
+    padding: 10px;
+}
+.window #close-window-btn{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.new-product-window .content{
+    align-content: center;
+}
+.form{
+    height: 80%;
+    display: grid;
+    padding: 0 30px;
+    grid-template-columns: 40% 60%;
+    margin: 0 auto;
+    text-align: center;
+}
+.form > div:first-child{
+    width: fit-content;
+    align-content: center;
+    margin: 0 auto;
+}
+.form .input-field{
+    position: relative;
+    margin: 15px 0;
+}
+.form .input-field label{
+    position: absolute;
+    font-size: 1rem;
+    top: 50%;
+    translate: 0 -50%;
+    color: lightgray;
+    left: 10px;
+    transition: 200ms all ease-out;
+}
+.form input:focus+label,
+.form input:not(:placeholder-shown)+label{
+    color: white;
+    font-weight: bold;
+    top: 0;
+    font-size: 0.8rem;
+}
+.form input{
+    width: 25ch;
+    border: none;
+    background-color: rgb(115, 115, 115);
+    color: white;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    padding: 10px;
+    outline: none;
+}
+.category-form >*{
+    border-radius: 5px;
+    position: relative;
+    background-color: grey;
+    margin: 10px 0;
+    padding: 10px;
+}
+.category-form .category-option-parent{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    max-height: 200px;
+    overflow: auto;
+}
+.category-form > * label{
+    z-index: 10;
+    position: absolute;
+    top: -20px;
+    color: black;
+    left: 5px;
+    text-shadow: 0 0 1px black;
+}
+.category-form .category-options{
+    background-color: rgb(205, 205, 205);
+}
+
+.category-form .category-option{
+    height: fit-content;
+    margin: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.65rem;
+}
+.category-form .category-options .category-option{
+    border: 1px solid black;
+    color: black;
+    background-color: transparent;
+}
+
+.picture-selector{
+    padding: 0;
+    background-color: transparent;
+}
+
+.picture-selector button{
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.picture-selector #add-image-btn::before{
+    content: '+';
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+}
+.picture-selector #add-image-btn::after{
+    content: 'Add Picture';
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+}
+
+.picture-selector:has(img) #add-image-btn::before{
+    content: '';
+}
+.picture-selector:has(img) #add-image-btn::after{
+    content: 'Remove Picture';
+}
+
+.picture-selector:has(img) #add-image-btn{
+    max-height: 30px;
+}
+.picture-selector:has(img){
+    display: flex;
+    box-shadow: 0 0 5px grey;
+    flex-direction: column;
+}
+.picture-selector:has(img) .image-display{
+    height: 80%;
+}
+.picture-selector img{
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+}
+
+
+.picture-selector #add-image-btn:hover{
+    background-color: rgba(255, 255, 255, 0.4);
+}
+.picture-selector #add-image-btn:active{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+
+.category-form{
+    height: 250px;
+    display: grid;
+    grid-template-columns: 1.4fr 3.7fr;
+    grid-template-rows: 0.5fr 0.5fr;
+    gap: 10px;
+    height: 100%;
+}
+.category-form .categories-choosen{
+    grid-column: span 2;
+    height: 100%;
+}
+/* .category-form {
+    display: flex;
+    flex-direction: column;
+    height: 300px; 
+    gap: 10px;
+} */
+
+.category-form > div { 
+    position: relative;
+    min-height: 50px;
+    max-height: 200px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.category-option-parent {
+    flex: 1;
+    overflow: auto; 
+    max-height: 100%;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+
+
+.new-product-window .buttons-container{
+    width: 100%;
+    grid-column: span 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.new-product-window .buttons-container button{
+    margin: 10px;
+    font-size: 1rem;
+    height: fit-content;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.new-product-window #save-btn{
+    background-color: rgb(115, 115, 115);
+    color: white;
+}
+.categories-form > *{
+    position: relative;
+}
+.category-form > *::before {
+    animation: 200ms pop ease-in;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100%;
+}
+.category-options:not(:has(.category-option))::before{
+    content: 'No Categories Available';
+    color: gray;
+}
+.categories-choosen:not(:has(.category-option))::before{
+    content: 'No Categories Choosen';
+    color: rgb(205, 205, 205);
+}
+
+.manage-category-window,
+.manage-list-window
+{
+    height: 450px;
+}
+.window h4{
+    text-align: center;
+    padding: 10px;
+}
+.window .categories-container,
+.window .lists-container{
+    padding: 10px;
+    width: 60%;
+    margin: 10px auto;
+    height: 350px;
+    overflow-y: auto;
+}
+.manage-category-window .category,
+.manage-list-window .list{
+    border-radius: 5px;
+    background-color: rgb(120, 120, 120);
+    color: white;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 2fr 1fr;
+    height: 38px;
+    overflow: hidden;
+    margin: 10px 0;
+    transition: 100ms height ease-in-out;
+}
+.window .category:hover,
+.window .list:hover{
+    height: 70px;
+}
+.manage-category-window  .buttons-container,
+.manage-list-window  .buttons-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: span 2;
+    margin: 5px 0 5px auto;
+    width: fit-content;
+}
+.category input,
+.list input
+{
+    background-color: transparent;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.manage-category-window input:not(:disabled),
+.manage-list-window input:not(:disabled){
+    outline: 2px solid grey;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.category button,
+.list button
+{
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+.category button:first-child,
+.list button:first-child
+{
+    color: white;
+    font-size: 0.7rem;
+    background-color: darkred !important;
+}
+
+.category button:hover,
+.list button:hover{
+    font-weight: 100;
+}
+.category button:active,
+.list button:active{
+    opacity: 0.9;
+}
+.category .category-products-count,
+.list .list-products-count{
+    font-size: 0.75rem;
+    text-align: right;
+}
+.category button:last-child,
+.list button:last-child{
+    margin-left: 10px;
+    background-color: darkgreen;
+    color: white;
+}
+.categories-container > button,
+.lists-container > button{
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px;
+    border: none;
+    opacity: 15%;
+    transition: 100ms opacity ease-in;
+}
+.categories-container > button:hover,
+.lists-container > button:hover{
+    opacity: 50%;
+}
+.categories-container > button:active,
+.lists-container > button:active{
+    opacity: 100%;
+}
+
+
+.dialog-box{
+    animation: 300ms slide-down ease-in-out;
+    box-shadow: 0 0 10px 0 grey;
+    top: 50px;
+    left: 50%;
+    translate: -50% 70% ;
+    position: absolute;
+    z-index: 5;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 5px;
+    min-width: 150px;
+    font-size: 0.75rem;
+    color: darkred;
+}
+.error-message{
+    color: white;
+    background-color: darkred;
+}
+.success-message{
+    background-color: darkgreen;
+    color: white;
+}
+
+
+.confirmation-dialogue{
+    animation: 300ms pop ease-in-out;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba(92, 91, 91, 0.5);
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 5px;
+    width: 225px;
+    aspect-ratio: 16 / 9;
+    font-size: 0.75rem;
+}
+.dialogue-header{
+    border-radius: 5px 5px 0 0;
+    background-color: grey;
+    color: white;
+    padding: 5px 10px;
+}
+body:has(.confirmation-dialogue) *:not(.confirmation-dialogue button){
+    pointer-events: none;   
+}
+.confirmation-dialogue button{
+    pointer-events: all;
+}
+.dialogue-message{
+    padding: 10px;
+    flex-grow: 1;
+}
+.dialogue-btns{
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.dialogue-btns button{
+    border: 1px solid black;
+    margin-left: 10px;
+    font-weight: bold;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+    width: 65px;
+}
+.dialogue-btns button:first-child{
+    background-color: grey;
+    color: white;
+    border-color: white;
+}

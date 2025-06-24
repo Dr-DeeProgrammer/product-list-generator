@@ -1,0 +1,45 @@
+{
+  "name": "product-list",
+  "version": "1.0.0",
+  "description": "Electron app for managing product lists",
+  "author": "Daniyal Khizar Hayat",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "dependencies": {
+    "fast-json-patch": "^3.0.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "electron": "^25.1.8",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.tijarat.productlist",
+    "productName": "Product List",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "public/**/*",
+      "!node_modules/.cache",
+      "!dist"
+    ],
+    "extraResources": [
+    "side-panel.css",
+    "main-container.css",
+    "extra-modules.css",
+    "create-list-window.css",
+    "input-validation.css",
+    "export-file.css",
+    "settings.css"
+  ],
+    "win": {
+      "target": "portable",
+      "icon": "app-icon.ico"
+    }
+  }
+}

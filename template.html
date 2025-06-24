@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <title>Usman Medicine</title>
+    <style>
+        @keyframes slide {
+            from {
+                translate: 0 0;
+            }
+
+            49.99% {
+                translate: -100% 0;
+                display: none;
+            }
+
+            50.01% {
+                translate: 100% 0;
+                display: block;
+            }
+
+            to {
+                translate: 0 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .app {
+
+            --bg-clr: white;
+            --txt-clr: #343A40;
+            --tbl-header-bg-clr: #E0F0F9;
+            --tbl-header-clr: #002A5C;
+            --rows-bg-clr: white;
+            --even-row-bg-clr: #edf1f4;
+            --order-btn-bg-clr: #002A5C;
+            --download-btn-bg-clr: #007BFF;
+            overflow: hidden;
+            position: relative;
+        }
+
+        main {
+            background-color: whitesmoke;
+        }
+
+        header {
+            padding: 0 10px;
+            transition: height 500ms linear;
+            overflow: hidden;
+        }
+
+        header>p {
+            width: 90%;
+            margin: 3px auto;
+            color: var(--txt-clr);
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        header .company-address {
+            white-space: nowrap;
+            animation: slide 10s linear infinite;
+        }
+
+        .company-name {
+            margin: 10px 0;
+            color: #002A5C;
+            text-align: center;
+        }
+
+        header .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            padding: 3px 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .whatsapp-link {
+            animation: pulse 2s infinite;
+        }
+
+        .content-title {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .list-date {
+            color: #343A40;
+            font-style: italic;
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+
+        .input-field {
+            width: fit-content;
+            position: relative;
+            margin: 10px;
+        }
+
+        .input-field textarea+label {
+            top: 12px;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            translate: 10px -50%;
+            color: #aaa;
+            transition: top 0.2s ease;
+        }
+
+        .input-field input,
+        .input-field textarea {
+            background-color: transparent;
+            font-weight: bold;
+            padding: 5px 10px;
+            color: #002A5C;
+            border: 1px solid var(--txt-clr);
+            outline: none;
+        }
+
+        .input-field input:focus,
+        .input-field textarea:focus {
+            box-shadow: 0 0 5px 5px var(--tbl-header-bg-clr);
+        }
+
+        .table-body {
+            min-height: 350px;
+        }
+
+        .table-body input:not(:placeholder-shown) {
+            background-color: transparent;
+            border: none;
+        }
+
+        input:focus+label,
+        input:not(:placeholder-shown)+label {
+            top: 0;
+            left: 0;
+            font-size: 0.75rem;
+            color: #002A5C;
+            background-color: whitesmoke;
+            padding: 3px;
+        }
+
+        .table {
+            margin: 0 5px;
+            background-color: var(--bg-clr);
+            color: var(--txt-clr);
+        }
+
+        .table .header-row {
+            background-color: var(--tbl-header-bg-clr);
+            color: var(--tbl-header-clr);
+            font-weight: bold;
+            font-size: 1.05rem;
+            text-align: center;
+        }
+
+        .table .row {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr 1fr 1.5fr;
+            padding: 3px 0;
+        }
+
+        .row:not(:has(input:focus)) .cell:has(img) {
+            display: none;
+        }
+
+        .cell:has(img) {
+            grid-column: span 4;
+            width: 300px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px auto;
+        }
+
+        .cell img {
+            border-radius: 15px;
+            box-shadow: 0 0 5px 0 grey;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .table .data-row+.category-row {
+            margin-top: 10px;
+        }
+
+        .table .category-row {
+            font-weight: bols;
+            font-size: 1.2rem;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+            background-color: rgba(0, 123, 255, 0.4);
+            text-shadow: 0 0 5px #002A5C;
+
+        }
+
+        .table .data-row:nth-child(even) {
+            background-color: var(--even-row-bg-clr);
+        }
+
+        .table:has(input:focus) .header-row,
+        .data-row:has(input:focus) {
+            grid-template-columns: 1fr 3fr 1fr 1fr;
+        }
+
+        .data-row:has(input:focus) {
+            margin: 15px 0;
+            border: 2px solid #007BFF;
+            border-radius: 3px;
+            padding: 5px;
+        }
+
+        .table:has(input:focus) .header-row .cell:last-child {
+            display: none;
+        }
+
+        .table:has(input:focus) .data-row:not(:has(input:focus)) {
+            filter: blur(0.5px);
+        }
+
+        .data-row:has(input:focus) .cell:last-child {
+            background-color: var(--tbl-header-bg-clr);
+            text-align: center;
+            color: #007BFF;
+        }
+
+        .data-row:has(input:focus) .cell:last-child::before {
+            content: 'Description: ';
+        }
+
+        .cell:last-child {
+            font-weight: bold;
+        }
+
+        .data-row:has(input:focus) .cell:last-child {
+            grid-column: span 4;
+            padding: 5px;
+        }
+
+        main .data-row:not(:has(input:focus)) .cell,
+        .data-row .cell:nth-last-child(2) {
+            align-content: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .cell:not(:has(input)) {
+            padding: 3px;
+        }
+
+        .cell input {
+            font-size: 1rem;
+            height: 80%;
+            width: 100%;
+            border-radius: 0;
+            border: 1px solid var(--txt-clr);
+            padding: 5px;
+        }
+        .data-row .cell:nth-child(4){
+            color: red !important;
+        }
+        .data-row .cell:nth-child(4)::after{
+            content: '%';
+        }
+        .cell input:focus {
+            padding: 10px;
+        }
+
+        input::selection {
+            color: white;
+            background-color: #007BFF;
+        }
+
+        .cell input::placeholder {
+            color: rgba(0, 41, 92, 0.5);
+        }
+
+        .invoice-body {
+            transition: 300ms height ease-in;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgb(235, 239, 243);
+            background-color: white;
+            height: 0;
+            width: 100%;
+            min-width: 100%;
+            min-height: 50px;
+            max-height: 90%;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 0 5px 5px lightgrey;
+            overflow: hidden;
+        }
+
+        .customer-form {
+            margin: 10px 0;
+        }
+
+        .customer-form input,
+        .customer-form textarea {
+            padding: 10px;
+            width: 80%;
+        }
+
+        .customer-form .input-field {
+            width: 70%;
+        }
+
+        textarea {
+            height: 50px;
+        }
+
+        textarea:focus+label,
+        textarea:not(:placeholder-shown)+label {
+            top: 0;
+            left: 0;
+            font-size: 0.75rem;
+            color: #002A5C;
+            background-color: rgb(230, 233, 240);
+            padding: 3px;
+        }
+
+        .invoice-status {
+            background-color: var(--tbl-header-bg-clr);
+            color: var(--tbl-header-clr);
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            margin: 0 5px;
+            position: sticky;
+            font-size: 1.25rem;
+            bottom: 0;
+            font-weight: bold;
+        }
+
+        .invoice-body .buttons-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px;
+        }
+
+        .search-container input {
+            width: 100%;
+        }
+
+        .search-container>* {
+            flex-grow: 1;
+        }
+
+        .invoice-body .buttons-container button,
+        button#my-order-btn {
+            padding: 10px 15px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 1pt;
+            color: white;
+            text-shadow: 0 0 2px black;
+        }
+
+        button#my-order-btn {
+            background-color: var(--order-btn-bg-clr);
+            display: block;
+            margin: 10px;
+            margin-left: auto;
+            display: none;
+            font-size: 0.65rem;
+        }
+
+        button#download-btn {
+            background-color: var(--download-btn-bg-clr);
+        }
+
+        button#whatsapp-btn {
+            background-color: rgb(37, 211, 102);
+        }
+
+        main:has(input:not(#search-bar):not(:placeholder-shown)) #my-order-btn {
+            display: block;
+        }
+
+        .invoice-body:has(input:not(:placeholder-shown)) .warning {
+            display: none;
+        }
+
+        .app:has(main input:focus) header {
+            height: 0;
+            overflow: hidden;
+        }
+
+        #search-bar {
+            padding-top: 10px;
+        }
+
+        .content-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .warning {
+            color: red;
+            padding: 0 10px;
+        }
+
+        .data-row.prioritized .cell:nth-child(2)::before {
+            content: '🔥';
+        }
+
+        button#close-btn {
+            position: absolute;
+            background-color: #002A5C;
+            border: none;
+            display: block;
+            width: 25px;
+            border-radius: 5px;
+            aspect-ratio: 1 / 1;
+            top: 10px;
+            right: 10px;
+        }
+
+        #close-btn::before,
+        #close-btn::after,
+        .remove-btn::before,
+        .remove-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            background-color: white;
+            height: 3px;
+            width: 80%;
+            rotate: 45deg;
+        }
+
+        #close-btn::after,
+        .remove-btn::after {
+            rotate: 135deg;
+        }
+
+        .data-row:has(.remove-btn) {
+            position: relative !important;
+        }
+
+        .invoice-body .table.active-remove-btns .cell.remove-btn {
+            translate: 0% -50%;
+        }
+
+        .data-row .cell.remove-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            translate: 200% -50%;
+            transition: 300ms translate ease;
+            background-color: darkred;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            display: grid;
+        }
+
+        #delete-invoice-btn {
+            padding: 10px;
+            border: none;
+            background-color: darkred;
+            color: white;
+            margin: 10px;
+            margin-left: auto;
+            width: fit-content;
+            font-weight: bold;
+        }
+
+        .app:not(:has(.active-remove-btns)) #delete-invoice-btn {
+            display: none;
+        }
+        .invoice-body.hide-everything .input-field,
+        .invoice-body.hide-everything .table,
+        .invoice-body.hide-everything .buttons-container
+        {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <h1 class="company-name">Company Name</h1>
+            <p class="company-description">
+                Company Description
+            </p>
+            <p class="company-address">
+                Address: Company Address
+            </p>
+            <p>
+                Phone: <a class="whatsapp-link" href="https://wa.me/+923001234567">0300 1234567</a>
+            </p>
+        </header>
+        <main>
+            <h2 class="content-title">Product Offers<p class="list-date">(1 Jan, 2025)</p>
+            </h2>
+            <div class="search-container">
+                <div class="input-field">
+                    <input placeholder="" type="search" id="search-bar">
+                    <label for="search-bar">Search Product</label>
+                </div>
+                <button id="my-order-btn">My Order</button>
+            </div>
+            <div class="table">
+                <div class="header-row row">
+                    <div class="cell">Qty</div>
+                    <div class="cell">Product Name</div>
+                    <div class="cell">Rate</div>
+                    <div class="cell">Disc.(%)</div>
+                    <div class="cell">Description</div>
+                </div>
+                <div class="table-body"></div>
+            </div>
+
+        </main>
+
+        <div class="invoice-body">
+            <div class="printable-area">
+                <div class="customer-form">
+                    <div class="input-field">
+                        <input placeholder="" type="text" id="customer-name">
+                        <label for="customer-name">Name</label>
+                    </div>
+                    <div class="warning">Apna Naam Laazmi Likhein</div>
+                    <div class="input-field">
+                        <textarea placeholder="" id="customer-address"></textarea>
+                        <label for="customer-address">Address</label>
+                    </div>
+                    <div class="customer-invoice">
+                        <div id="delete-invoice-btn">Delete Invoice</div>
+                        <div class="table">
+                            <div class="header-row row">
+                                <div class="cell">Qty</div>
+                                <div class="cell">Product Name</div>
+                                <div class="cell">Rate</div>
+                                <div class="cell">Disc.(%)</div>
+                                <div class="cell">Description</div>
+                            </div>
+                            <div class="table-body">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-status">
+                        <p class="total-products">0 Item(s)</p>
+                        <p class="total-bill">Total: Rs. 0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons-container">
+                <button id="download-btn">Download</button>
+                <button id="whatsapp-btn">Whatsapp</button>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+        <script>
+            console.log(system);
+            function saveData() {
+                const key = 'product-list';
+                const data = {
+                    "date": system.listDate,
+                    "customerName": document.querySelector('#customer-name').value,
+                    "customerAddress": document.querySelector('#customer-address').value,
+                    "order": getOrder().map(item => ({ name: item.name, qty: item.qty }))
+                };
+                localStorage.setItem(key, JSON.stringify(data));
+            }
+            function loadData() {
+                const key = 'product-list';
+                const data = JSON.parse(localStorage.getItem(key));
+                if (data) {
+                    if (system.listDate != data.date) {
+                        saveData();
+                    }
+                    document.getElementById('customer-name').value = data.customerName;
+                    document.getElementById('customer-address').value = data.customerAddress;
+                    try {
+                        data.order.map(item => {
+                            const product = productList().find(p => p.name.toLowerCase() == item.name.toLowerCase());
+                            product.qty = item.qty;
+                        });
+                    } catch (e) {
+                        saveData();
+                    }
+                    updateInvoiceTable();
+                }
+            }
+            function setCompanyInfo() {
+                document.querySelector('.company-name').textContent = system.companyName;
+                document.querySelector('.company-description').textContent = system.companyDescription;
+                document.querySelector('.company-address').textContent = `Address: ${system.companyAddress}`;
+                const a = document.querySelector('.whatsapp-link');
+                a.href = `https://wa.me/${system.phoneNumber}`;
+                a.textContent = system.phoneNumber;
+                document.querySelector('.list-date').textContent = `(${system.listDate})`;
+            }
+            function getProduct(productName) {
+                const list = productList();
+                return list.find(item => item.name.toLowerCase() == productName.toLowerCase());
+            }
+            function updateProductQty(e) {
+                const input = e.currentTarget;
+                const productName = getProductName(input);
+                const product = getProduct(productName);
+                product.qty = parseInt(input.value) || 0;
+                updateInvoiceTable();
+                saveData();
+            }
+            function inputDataQty(value) {
+                const input = document.createElement('input');
+                input.type = "number";
+                input.placeholder = 'Qty';
+                input.value = value || '';
+                input.addEventListener('keyup', updateProductQty);
+                input.addEventListener('focus', (e) => e.currentTarget.select())
+                return input;
+            }
+            function imageDataCell(bytecode) {
+                let cell = document.createElement("div");
+                cell.classList.add("cell");
+                console.log(bytecode);
+                let mimeType = "";
+                if (bytecode.startsWith("/9j/")) mimeType = "image/jpeg";
+                else if (bytecode.startsWith("iVBORw0KGg")) mimeType = "image/png";
+                else if (bytecode.startsWith("UklGR")) mimeType = "image/webp";
+                else if (bytecode.startsWith("R0lGOD")) mimeType = "image/gif";
+                else if (bytecode.startsWith("AAABAAE")) mimeType = "image/x-icon";
+                else mimeType = "image/png";
+
+                let img = document.createElement("img");
+                img.src = `data:${mimeType};base64,${bytecode}`;
+                img.alt = "Image Preview";
+
+                cell.appendChild(img);
+                return cell;
+            }
+            function getProductName(element) {
+                return element.closest('.data-row').querySelector('.cell:nth-child(2)').textContent;
+            }
+            function removeProduct(btn) {
+                const productName = getProductName(btn).toLowerCase();
+                const product = getProduct(productName);
+                product.qty = 0;
+                updateDataTable();
+                updateInvoiceTable();
+                saveData();
+            }
+            function removeProductBtn() {
+                const cell = document.createElement('div');
+                cell.classList.add('cell', 'remove-btn');
+                cell.addEventListener('click', (e) => { e.stopPropagation(); removeProduct(e.currentTarget); });
+                return cell;
+            }
+            function removeAllProducts() {
+                Array.from(document.querySelectorAll('.cell.remove-btn')).forEach(btn => {
+                    removeProduct(btn);
+                });
+                updateInvoiceTable();
+                if (getOrder().length == 0) {
+                    invoiceTable.classList.remove('active-remove-btns');
+                }
+            }
+            function dataCell(text, isQty) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                if (isQty) {
+                    cell.append(inputDataQty(text))
+                } else {
+                    cell.textContent = text;
+                }
+                return cell;
+            }
+            function dataRow(product, invoiceTable) {
+                const keys = ["qty", "name", "rate", "discount", "description"];
+                const row = document.createElement('div');
+                row.classList.add('row', 'data-row');
+                if (product.prioritized) {
+                    row.classList.add("prioritized");
+                }
+                keys.forEach(key => {
+                    row.append(dataCell(product[key], (key == "qty") && !invoiceTable));
+                });
+
+                if (invoiceTable) {
+                    row.append(removeProductBtn());
+                } else if (product["image-data"]) {
+                    row.insertBefore(imageDataCell(product["image-data"]), row.querySelector('.cell:last-child'));
+                }
+
+
+                return row;
+            }
+
+            function categoryRow(category) {
+                const div = document.createElement('div');
+                div.classList.add('category-row');
+                div.textContent = category;
+                return div;
+            }
+            function searchDataValue() {
+                return document.getElementById('search-bar').value.toLowerCase();
+            }
+            function updateDataTable() {
+                const tableBody = document.querySelector('.table-body');
+                const searchvalue = searchDataValue();
+                let categories = null;
+                console.log(products)
+                if (searchvalue == '🔥') {
+                    categories = Object.keys(products).filter(key => products[key].some(p => p.prioritized));
+                } else {
+                    categories = Object.keys(products).filter(key => products[key].some(p => p.name.toLowerCase().includes(searchvalue) || p.description.toLowerCase().includes(searchvalue)));
+                }
+                if (categories) {
+                    tableBody.innerHTML = '';
+                    categories.forEach(category => {
+                        if (products[category].length) {
+                            tableBody.append(categoryRow(category));
+                            products[category].forEach(product => {
+                                if (searchvalue == '🔥') {
+                                    if (product.prioritized) {
+                                        tableBody.append(dataRow(product));
+                                    }
+                                } else if (product.name.toLowerCase().includes(searchvalue) || product.description.toLowerCase().includes(searchvalue)) {
+                                    tableBody.append(dataRow(product));
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            function productList() {
+                return Object.values(products).flat();
+            }
+            function discountAmount(rate, discountPercent) {
+                console.log(rate, discountPercent);
+                return parseFloat(rate) * parseFloat(discountPercent) / 100;
+            }
+            function getAmount(item) {
+                return (item.qty * (parseFloat(item.rate) - discountAmount(parseFloat(item.rate), parseFloat(item.discount)))).toFixed(2);
+            }
+            function getTotal(list) {
+                let totalCents = list.reduce((accumulator, product) => {
+                    const amountCents = Math.round(getAmount(product) * 100);
+                    return accumulator + amountCents;
+                }, 0);
+
+                const totalDollars = (totalCents / 100).toFixed(2);
+                return totalDollars;
+            }
+            function updateInvoiceStatus(list) {
+                const itemCount = list.length;
+                const totalBill = getTotal(list);
+                const itemCountDiv = document.querySelector('.total-products');
+                const itemTotalDiv = document.querySelector('.total-bill');
+                itemCountDiv.textContent = `${itemCount} product(s)`;
+                itemTotalDiv.textContent = `Total: Rs. ${totalBill}`;
+            }
+            function getOrder() {
+                return productList().filter(item => parseInt(item.qty) > 0);
+            }
+            function updateInvoiceTable() {
+                const tableBody = document.querySelector('.invoice-body .table-body');
+                const list = getOrder();
+                if (list) {
+                    tableBody.innerHTML = '';
+                    list.forEach(item => {
+                        delete item["image-data"];
+                        tableBody.append(dataRow(item, true));
+                    });
+                }
+                updateInvoiceStatus(list);
+            }
+            function generateWhatsAppLink(phone, message) {
+                let encodedMessage = encodeURIComponent(message);
+                return `https://wa.me/${phone}?text=${encodedMessage}`;
+            }
+            function sendtoWhatsapp() {
+                const customerNameInput = document.getElementById('customer-name');
+
+                if (customerNameInput.value.trim()) {
+                    const header = `*MY ORDER*\n\n`;
+
+                    const listDate = `> *List Date:* \`${system.listDate}\`\n\n`;
+
+                    const customerAddress = document.getElementById('customer-address').value;
+                    const customerInfoText = `> *Customer:* \`${customerNameInput.value}\`\n` +
+                        `> *Address:* \`${customerAddress ? customerAddress : '(N/A)'}\`\n\n`;
+
+                    const items = getOrder();
+
+                    const item2Text = (p) => `* \`${p.qty}\`  ${p.name}\n\n`;
+                    const itemsText = items.reduce((accumulator, p) => accumulator + item2Text(p), '');
+
+                    const statusText = `\n> *Total Items:* \`${items.length}\`\n` +
+                        `> *Total Bill:* \`${getTotal(items)}\``;
+                    const message = header + listDate + customerInfoText  +  `\`(Qty)  (Product Name)\`\n\n` +itemsText + statusText;
+
+                    const waLink = generateWhatsAppLink(system.phoneNumber, message);
+                    window.location.href = waLink;
+
+                } else {
+                    customerNameInput.value = '';
+                    customerNameInput.focus();
+                }
+            }
+
+            function captureOrder() {
+                const input = document.getElementById('customer-name');
+                if (input.value.trim()) {
+                    const orderDiv = document.querySelector('.invoice-body .printable-area');
+                    orderDiv.style.padding = '10px';
+                    console.log(orderDiv);
+                    html2canvas(orderDiv).then(function (canvas) {
+                        const link = document.createElement('a');
+                        link.href = canvas.toDataURL("image/png");
+                        link.download = "order.png";
+                        link.click();
+                    });
+                    orderDiv.style.padding = '0px';
+                } else {
+                    input.value = '';
+                    input.focus();
+                }
+            }
+
+            function adjustTableBodyHeight() {
+                const app = document.querySelector('.app');
+                app.style.height = window.innerHeight + 'px';
+                const main = document.querySelector('main');
+                const tableBody = document.querySelector('.table-body');
+
+                if (!app || !main || !tableBody) return;
+
+                const appHeight = app.clientHeight;
+                const mainRect = main.getBoundingClientRect();
+                const tableRect = tableBody.getBoundingClientRect();
+
+                const remainingHeight = appHeight - mainRect.top - (tableRect.top - mainRect.top);
+
+                tableBody.style.height = `${remainingHeight}px`;
+                tableBody.style.overflowY = 'auto';
+
+            }
+            function expandInvoiceBody() {
+                invoiceBody.style.height = '90vh'
+                invoiceBody.style.overflowY = 'auto'
+                invoiceBody.classList.remove('hide-everything');
+                const closeBtn = document.createElement('button');
+                closeBtn.id = 'close-btn';
+                closeBtn.addEventListener('click', () => {
+                    setTimeout(()=>invoiceBody.classList.add('hide-everything'),200);
+                    invoiceBody.style.height = '0px';
+                    invoiceBody.style.overflowY = 'hidden';
+                    closeBtn.remove()
+                });
+                invoiceBody.append(closeBtn);
+            }
+            let interval_ID = null;
+            const invoiceBody = document.querySelector('.invoice-body');
+            const invoiceTable = document.querySelector('.invoice-body .table');
+            const myOrderBtn = document.getElementById('my-order-btn');
+            const products = system.products;
+            const searchBar = document.getElementById('search-bar');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const customerName = document.getElementById('customer-name');
+            const customerAddress = document.getElementById('customer-address');
+            const downloadBtn = document.getElementById('download-btn');
+            const deleteInvoiceBtn = document.getElementById('delete-invoice-btn');
+
+            loadData();
+            updateDataTable();
+            setCompanyInfo();
+            invoiceBody.classList.add('hide-everything');
+
+            deleteInvoiceBtn.addEventListener('click', removeAllProducts);
+            invoiceTable.addEventListener('contextmenu', (e) => { e.preventDefault(); invoiceTable.classList.add('active-remove-btns'); });
+            invoiceTable.addEventListener('click', () => invoiceTable.classList.remove('active-remove-btns'));
+            window.addEventListener('load', adjustTableBodyHeight);
+            window.addEventListener('resize', adjustTableBodyHeight);
+            myOrderBtn.addEventListener('click', expandInvoiceBody);
+            searchBar.addEventListener('keyup', updateDataTable);
+            searchBar.addEventListener('focus', adjustTableBodyHeight);
+            searchBar.addEventListener('focusout', adjustTableBodyHeight);
+            customerName.addEventListener('focusout', saveData);
+            customerAddress.addEventListener('focusout', saveData);
+            whatsappBtn.addEventListener('click', sendtoWhatsapp);
+            downloadBtn.addEventListener('click', captureOrder);
+        </script>
+
+
+</body>
+
+</html>

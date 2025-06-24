@@ -1,0 +1,29 @@
+.window:has(input[value=""]) #save-btn{
+    pointer-events: none;
+}
+
+.manage-category-window:has(input:not(:disabled)) button,
+.manage-list-window:has(input:not(:disabled)) button{
+    pointer-events: none;
+}
+body:has(.dialog-box) button:not(.dialog-box button){
+    pointer-events: none;
+}
+
+body:has(.confirmation-dialogue) button:not(.confirmation-dialogue button){
+    pointer-events: none;
+}
+.categories-draggable{
+    position: relative;
+}
+.categories-draggable:empty::before{
+    content: 'No Categories Available';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    color: grey;
+    width: 100%;
+    font-size: 0.75rem;
+    text-align: center;
+}
