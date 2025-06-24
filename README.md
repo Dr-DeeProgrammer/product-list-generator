@@ -25,15 +25,15 @@ An Electron-based desktop app designed to automate daily product listings for sm
 
 ## 🖼 Screenshots
 
-_Add screenshots here like:_
+### 🧾 Dashboard View
+![Dashboard](./public/screenshots/dashboard-view.png)
 
-- Dashboard view  
-- Exported product list in HTML  
-- WhatsApp order example
+### 📄 Product List Output
+![Product Sheet](./public/screenshots/product-sheet.png)
 
-> _Use `public/screenshots/` folder if needed_
+### 💬 WhatsApp Order Example
+![WhatsApp](./public/screenshots/whatsapp-send.png)
 
----
 
 ## 🧑‍💼 Use Case
 
